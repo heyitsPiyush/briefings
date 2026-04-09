@@ -1,13 +1,11 @@
 import os
-import json
 import datetime
-import google.generativeai as genai
-from google.generativeai import types
 from pathlib import Path
+from google import genai
+from google.genai import types
 
 # ── Config ────────────────────────────────────────────────────────────────────
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-2.5-flash")
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 TODAY = datetime.date.today()
 DOCS_DIR = Path("docs")
@@ -21,179 +19,127 @@ TOPICS = [
         "icon": "🐛",
         "label": "Bug Bounty",
         "depth": "deep",
-        "prompt": """
-            You are a senior bug bounty researcher writing a daily briefing for {date}.
-            Use Google Search to find today's most significant bug bounty news.
-            Focus on:
-            - New vulnerability disclosures and writeups from researchers
-            - HackerOne, Bugcrowd, Intigriti program updates or payouts
-            - Interesting CVEs that originated from bounty programs
-            - Researcher techniques, methodologies, and tooling
-            - Notable bug bounty wins or record payouts
-
-            Write 3 detailed paragraphs covering the most important findings.
-            Be technically specific — name the vulnerabilities, affected systems,
-            CVSS scores, and researcher names where available.
-        """
+        "prompt": """You are a senior bug bounty researcher writing a daily briefing for {date}.
+Search for today's most significant bug bounty news. Focus on:
+- New vulnerability disclosures and writeups from researchers
+- HackerOne, Bugcrowd, Intigriti program updates or payouts
+- Interesting CVEs that originated from bounty programs
+- Researcher techniques, methodologies, and tooling
+- Notable bug bounty wins or record payouts
+Write 3 detailed paragraphs. Be technically specific — name vulnerabilities,
+affected systems, CVSS scores, and researcher names where available."""
     },
     {
         "key": "hardware_hacking",
         "icon": "⚙️",
         "label": "Hardware Hacking",
         "depth": "deep",
-        "prompt": """
-            You are a hardware security researcher writing a daily briefing for {date}.
-            Use Google Search to find today's most significant hardware hacking news.
-            Focus on:
-            - Firmware vulnerabilities and reverse engineering findings
-            - Embedded systems and IoT security research
-            - Side-channel attacks, fault injection, RF hacking
-            - Physical security bypasses and supply chain attacks
-            - New hardware hacking tools, techniques, and publications
-
-            Write 3 detailed paragraphs covering the most important findings.
-            Be technically specific — name chips, architectures, attack vectors,
-            affected devices, and researchers where available.
-        """
+        "prompt": """You are a hardware security researcher writing a daily briefing for {date}.
+Search for today's most significant hardware hacking news. Focus on:
+- Firmware vulnerabilities and reverse engineering findings
+- Embedded systems and IoT security research
+- Side-channel attacks, fault injection, RF hacking
+- Physical security bypasses and supply chain attacks
+- New hardware hacking tools, techniques, and publications
+Write 3 detailed paragraphs. Name chips, architectures, attack vectors,
+affected devices, and researchers where available."""
     },
     {
         "key": "exploit_dev",
         "icon": "💥",
         "label": "Exploit Development",
         "depth": "deep",
-        "prompt": """
-            You are an exploit development researcher writing a daily briefing for {date}.
-            Use Google Search to find today's most significant exploit development news.
-            Focus on:
-            - New exploit techniques, bypasses, and primitives
-            - Public PoC releases and proof of concept code
-            - Kernel exploits, browser exploits, memory corruption research
-            - Mitigation bypasses (ASLR, CFI, stack canaries, etc.)
-            - CTF writeups with deep exploit development content
-            - Project Zero, ZDI, and security lab publications
-
-            Write 3 detailed paragraphs covering the most important findings.
-            Be technically specific — name CVEs, affected versions, exploit
-            primitives used, and researchers where available.
-        """
+        "prompt": """You are an exploit development researcher writing a daily briefing for {date}.
+Search for today's most significant exploit development news. Focus on:
+- New exploit techniques, bypasses, and primitives
+- Public PoC releases and proof of concept code
+- Kernel exploits, browser exploits, memory corruption research
+- Mitigation bypasses (ASLR, CFI, stack canaries, etc.)
+- CTF writeups with deep exploit development content
+- Project Zero, ZDI, and security lab publications
+Write 3 detailed paragraphs. Name CVEs, affected versions, exploit
+primitives used, and researchers where available."""
     },
     {
         "key": "cve_threats",
         "icon": "🔍",
         "label": "CVE & Threat Analysis",
         "depth": "moderate",
-        "prompt": """
-            You are a threat intelligence analyst writing a daily briefing for {date}.
-            Use Google Search to find today's most significant CVEs and threat activity.
-            Focus on:
-            - Critical and high severity CVEs published or exploited today
-            - CISA KEV (Known Exploited Vulnerabilities) additions
-            - Active threat actor campaigns and TTPs
-            - Malware campaigns and ransomware activity
-            - Patch Tuesday updates if applicable
-
-            Write 2-3 paragraphs with solid technical detail.
-            Name specific CVE IDs, CVSS scores, affected products,
-            and threat actor groups where available.
-        """
+        "prompt": """You are a threat intelligence analyst writing a daily briefing for {date}.
+Search for today's most significant CVEs and threat activity. Focus on:
+- Critical and high severity CVEs published or exploited today
+- CISA KEV (Known Exploited Vulnerabilities) additions
+- Active threat actor campaigns and TTPs
+- Malware campaigns and ransomware activity
+Write 2-3 paragraphs. Name specific CVE IDs, CVSS scores, affected products,
+and threat actor groups where available."""
     },
     {
         "key": "ai_cyber",
         "icon": "🤖",
         "label": "AI × Cybersecurity",
         "depth": "deep",
-        "prompt": """
-            You are an AI security researcher writing a daily briefing for {date}.
-            Use Google Search to find today's most significant AI and cybersecurity news.
-            Focus on:
-            - LLM vulnerabilities — prompt injection, jailbreaks, model inversion
-            - AI-powered attacks and offensive security tools
-            - Defensive AI — detection models, AI-driven SOC tools
-            - Research on securing AI pipelines, RAG, vector databases
-            - AI red teaming techniques and findings
-            - New papers on AI safety with security implications
-
-            Write 3 detailed paragraphs covering the most important findings.
-            Be technically specific — name models, attack techniques, researchers,
-            and organizations where available.
-        """
+        "prompt": """You are an AI security researcher writing a daily briefing for {date}.
+Search for today's most significant AI and cybersecurity intersection news. Focus on:
+- LLM vulnerabilities — prompt injection, jailbreaks, model inversion
+- AI-powered attacks and offensive security tools
+- Defensive AI — detection models, AI-driven SOC tools
+- Research on securing AI pipelines, RAG, vector databases
+- AI red teaming techniques and findings
+Write 3 detailed paragraphs. Name models, attack techniques, researchers,
+and organizations where available."""
     },
     {
         "key": "ai_tech",
         "icon": "💡",
         "label": "AI & Tech",
         "depth": "moderate",
-        "prompt": """
-            You are a technology analyst writing a daily briefing for {date}.
-            Use Google Search to find today's most notable AI and technology news.
-            Focus on:
-            - Major AI model releases, updates, or announcements
-            - Significant research papers and breakthroughs
-            - Industry moves — funding, acquisitions, partnerships
-            - Developer tools, frameworks, and platform updates
-            - Policy and regulation developments around AI
-
-            Write 2-3 paragraphs covering the most important developments.
-            Be specific with model names, company names, and numbers.
-        """
+        "prompt": """You are a technology analyst writing a daily briefing for {date}.
+Search for today's most notable AI and technology developments. Focus on:
+- Major AI model releases, updates, or announcements
+- Significant research papers and breakthroughs
+- Industry moves — funding, acquisitions, partnerships
+- Developer tools, frameworks, and platform updates
+Write 2-3 paragraphs. Be specific with model names, company names, and numbers."""
     },
     {
         "key": "finance",
         "icon": "💰",
         "label": "Business & Finance",
         "depth": "broad",
-        "prompt": """
-            You are a financial analyst writing a daily market briefing for {date}.
-            Use Google Search to find today's most important business and finance news.
-            Focus on:
-            - Global market movements and key indices
-            - Major corporate earnings, mergers, acquisitions
-            - Central bank decisions and macroeconomic indicators
-            - Commodity prices (oil, gold) and currency moves
-            - Significant economic policy developments
-
-            Write 2 concise paragraphs with the key highlights.
-            Include specific numbers, percentages, and company names.
-        """
+        "prompt": """You are a financial analyst writing a daily market briefing for {date}.
+Search for today's most important business and finance news. Focus on:
+- Global market movements and key indices
+- Major corporate earnings, mergers, acquisitions
+- Central bank decisions and macroeconomic indicators
+- Commodity prices (oil, gold) and currency moves
+Write 2 concise paragraphs. Include specific numbers, percentages, and company names."""
     },
     {
         "key": "geopolitics",
         "icon": "🌍",
         "label": "Geopolitics & Policy",
         "depth": "broad",
-        "prompt": """
-            You are a geopolitical analyst writing a daily briefing for {date}.
-            Use Google Search to find today's most important geopolitical news.
-            Cover:
-            - Nepal: political developments, economy, government decisions,
-              natural disasters, significant local events
-            - Canada: federal/provincial politics, major policy decisions,
-              economic news, US-Canada relations
-            - Global: significant international conflicts, diplomacy,
-              elections, UN developments, major policy shifts
-
-            Write 2-3 paragraphs covering Nepal, Canada, and global highlights.
-            Be specific with names, locations, and context.
-        """
+        "prompt": """You are a geopolitical analyst writing a daily briefing for {date}.
+Search for today's most important geopolitical and policy news. Cover:
+- Nepal: political developments, economy, government decisions, significant local events
+- Canada: federal/provincial politics, major policy decisions, US-Canada relations
+- Global: significant international conflicts, diplomacy, elections, UN developments
+Write 2-3 paragraphs covering Nepal, Canada, and global highlights.
+Be specific with names, locations, and context."""
     },
     {
         "key": "science",
         "icon": "🔬",
         "label": "Science & Research",
         "depth": "broad",
-        "prompt": """
-            You are a science journalist writing a daily briefing for {date}.
-            Use Google Search to find today's most notable science and research news.
-            Focus on:
-            - Breakthrough research papers and findings
-            - Space exploration and astronomy news
-            - Medical and health research advances
-            - Climate and environmental science
-            - Physics, biology, and chemistry discoveries
-
-            Write 2 concise paragraphs with the key highlights.
-            Name specific researchers, institutions, and journals where available.
-        """
+        "prompt": """You are a science journalist writing a daily briefing for {date}.
+Search for today's most notable science and research developments. Focus on:
+- Breakthrough research papers and findings
+- Space exploration and astronomy news
+- Medical and health research advances
+- Climate and environmental science
+Write 2 concise paragraphs. Name specific researchers, institutions, and journals."""
     },
 ]
 
@@ -203,20 +149,20 @@ def fetch_and_summarize(topic: dict) -> dict:
     prompt = topic["prompt"].format(date=TODAY.strftime("%B %d, %Y"))
 
     try:
-        response = model.generate_content(
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
             contents=prompt,
-            tools=[types.Tool(google_search=types.GoogleSearch())],
-            generation_config=types.GenerationConfig(
+            config=types.GenerateContentConfig(
+                tools=[types.Tool(google_search=types.GoogleSearch())],
                 temperature=1.0,
                 max_output_tokens=2000,
             )
         )
 
-        # Log raw response for debugging
-        raw = response.text.strip() if response.text else ""
-        print(f"     raw response ({len(raw)} chars): {raw[:200]}...")
+        summary = response.text.strip() if response.text else "No content returned."
+        print(f"     summary length: {len(summary)} chars")
 
-        # Extract grounding sources from metadata
+        # Extract grounding source links from metadata
         links = []
         try:
             chunks = response.candidates[0].grounding_metadata.grounding_chunks
@@ -226,24 +172,15 @@ def fetch_and_summarize(topic: dict) -> dict:
                         "title": chunk.web.title or chunk.web.uri,
                         "url": chunk.web.uri
                     })
-            print(f"     grounding chunks found: {len(links)}")
+            print(f"     grounding links found: {len(links)}")
         except Exception as e:
-            print(f"     grounding metadata error: {e}")
+            print(f"     grounding metadata unavailable: {e}")
 
-        # Use raw text directly as summary — no JSON parsing needed
-        summary = raw if raw else "No content returned."
-
-        return {
-            "summary": summary,
-            "links": links[:6]
-        }
+        return {"summary": summary, "links": links[:6]}
 
     except Exception as e:
-        print(f"  [ERROR] API call failed for {topic['key']}: {type(e).__name__}: {e}")
-        return {
-            "summary": f"API error: {type(e).__name__}: {str(e)[:200]}",
-            "links": []
-        }
+        print(f"  [ERROR] {topic['key']}: {type(e).__name__}: {e}")
+        return {"summary": f"Error: {type(e).__name__}: {str(e)[:300]}", "links": []}
 
 # ── Build HTML ─────────────────────────────────────────────────────────────────
 def build_html(date: datetime.date, sections: dict, archive_links: str) -> str:
@@ -272,9 +209,7 @@ def build_html(date: datetime.date, sections: dict, archive_links: str) -> str:
           <div class="section-links">{links_html}</div>
         </section>"""
 
-    nav_links = "".join(
-        f'<a href="#{t["key"]}">{t["label"]}</a>' for t in TOPICS
-    )
+    nav_links = "".join(f'<a href="#{t["key"]}">{t["label"]}</a>' for t in TOPICS)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -354,19 +289,18 @@ def get_archive_links(current_date: datetime.date) -> str:
         d = current_date - datetime.timedelta(days=i)
         path = ARCHIVE_DIR / f"{d.isoformat()}.html"
         if path.exists():
-            links.append(
-                f'<a href="archive/{d.isoformat()}.html">{d.strftime("%b %d")}</a>'
-            )
+            links.append(f'<a href="archive/{d.isoformat()}.html">{d.strftime("%b %d")}</a>')
     return " ".join(links) if links else "<span>no archive yet</span>"
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     print(f"[INFO] Running digest for {TODAY}")
-    print(f"[INFO] Processing {len(TOPICS)} topics via Gemini Search Grounding\n")
+    print(f"[INFO] SDK: google-genai (new unified SDK)")
+    print(f"[INFO] Processing {len(TOPICS)} topics...\n")
 
     sections = {}
     for topic in TOPICS:
-        print(f"  → [{topic['key']}] calling Gemini...")
+        print(f"  → [{topic['key']}] calling Gemini with search grounding...")
         sections[topic["key"]] = fetch_and_summarize(topic)
         print(f"     ✓ done\n")
 
