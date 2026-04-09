@@ -9,45 +9,45 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0d0f0e; --surface: #131614; --border: #1e2320;
-      --border-bright: #2a302c; --text: #c8d4c9; --text-dim: #5a6b5c;
-      --text-bright: #e8f0e9; --accent: #4ade80; --accent-dim: #166534;
-      --red: #f87171; --amber: #fbbf24; --blue: #60a5fa;
-      --mono: 'IBM Plex Mono', monospace; --serif: 'Libre Baskerville', serif;
+      --bg:#0d0f0e;--surface:#131614;--border:#1e2320;--border-bright:#2a302c;
+      --text:#c8d4c9;--text-dim:#5a6b5c;--text-bright:#e8f0e9;
+      --accent:#4ade80;--accent-dim:#166534;
+      --red:#f87171;--amber:#fbbf24;--blue:#60a5fa;
+      --mono:'IBM Plex Mono',monospace;--serif:'Libre Baskerville',serif;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: var(--serif); font-size: 16px; line-height: 1.75; min-height: 100vh; }
-    header { border-bottom: 1px solid var(--border); padding: 2rem 0 1.5rem; position: sticky; top: 0; background: rgba(13,15,14,0.95); backdrop-filter: blur(8px); z-index: 100; }
-    .header-inner { max-width: 860px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: baseline; gap: 1.5rem; }
-    .header-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
-    .header-date { font-family: var(--mono); font-size: 0.8rem; color: var(--text-dim); margin-left: auto; }
-    nav { background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
-    nav::-webkit-scrollbar { display: none; }
-    .nav-inner { max-width: 860px; margin: 0 auto; padding: 0 2rem; display: flex; }
-    nav a { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); text-decoration: none; padding: 0.75rem 1rem; white-space: nowrap; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s; }
-    nav a:hover { color: var(--text-bright); border-color: var(--accent); }
-    main { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 6rem; }
-    .section { border: 1px solid var(--border); border-radius: 4px; margin-bottom: 2rem; overflow: hidden; transition: border-color 0.2s; }
-    .section:hover { border-color: var(--border-bright); }
-    .section-header { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem; background: var(--surface); border-bottom: 1px solid var(--border); }
-    .section-icon { font-size: 1.1rem; }
-    .section-header h2 { font-family: var(--mono); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; color: var(--text-bright); }
-    .depth-badge { margin-left: auto; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 2px; }
-    .depth-deep .depth-badge { background: rgba(248,113,113,0.1); color: var(--red); border: 1px solid rgba(248,113,113,0.2); }
-    .depth-moderate .depth-badge { background: rgba(251,191,36,0.1); color: var(--amber); border: 1px solid rgba(251,191,36,0.2); }
-    .depth-broad .depth-badge { background: rgba(96,165,250,0.1); color: var(--blue); border: 1px solid rgba(96,165,250,0.2); }
-    .section-body { padding: 1.5rem; font-size: 0.95rem; color: var(--text); }
-    .section-body p + p { margin-top: 1rem; }
-    .section-links { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.4rem; }
-    .section-links a { font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.15s; }
-    .section-links a:hover { color: var(--accent); }
-    .link-arrow { color: var(--accent); }
-    .archive-bar { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .archive-bar span { color: var(--border-bright); }
-    .archive-bar a { color: var(--text-dim); text-decoration: none; padding: 0.2rem 0.4rem; border: 1px solid var(--border); border-radius: 2px; transition: color 0.15s, border-color 0.15s; }
-    .archive-bar a:hover { color: var(--accent); border-color: var(--accent-dim); }
-    footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; max-width: 860px; margin: 0 auto; font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); display: flex; justify-content: space-between; }
-    @media (max-width: 600px) { .header-inner, .nav-inner, main, footer { padding-left: 1rem; padding-right: 1rem; } }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:16px;line-height:1.75;min-height:100vh}
+    header{border-bottom:1px solid var(--border);padding:2rem 0 1.5rem;position:sticky;top:0;background:rgba(13,15,14,0.95);backdrop-filter:blur(8px);z-index:100}
+    .header-inner{max-width:860px;margin:0 auto;padding:0 2rem;display:flex;align-items:baseline;gap:1.5rem}
+    .header-label{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent)}
+    .header-date{font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);margin-left:auto}
+    nav{background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+    nav::-webkit-scrollbar{display:none}
+    .nav-inner{max-width:860px;margin:0 auto;padding:0 2rem;display:flex}
+    nav a{font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);text-decoration:none;padding:0.75rem 1rem;white-space:nowrap;border-bottom:2px solid transparent;transition:color 0.15s,border-color 0.15s}
+    nav a:hover{color:var(--text-bright);border-color:var(--accent)}
+    main{max-width:860px;margin:0 auto;padding:3rem 2rem 6rem}
+    .section{border:1px solid var(--border);border-radius:4px;margin-bottom:2rem;overflow:hidden;transition:border-color 0.2s}
+    .section:hover{border-color:var(--border-bright)}
+    .section-header{display:flex;align-items:center;gap:0.75rem;padding:1rem 1.5rem;background:var(--surface);border-bottom:1px solid var(--border)}
+    .section-icon{font-size:1.1rem}
+    .section-header h2{font-family:var(--mono);font-size:0.85rem;font-weight:500;letter-spacing:0.05em;color:var(--text-bright)}
+    .depth-badge{margin-left:auto;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.5rem;border-radius:2px}
+    .depth-deep .depth-badge{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.2)}
+    .depth-moderate .depth-badge{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+    .depth-broad .depth-badge{background:rgba(96,165,250,0.1);color:var(--blue);border:1px solid rgba(96,165,250,0.2)}
+    .section-body{padding:1.5rem;font-size:0.95rem;color:var(--text)}
+    .section-body p+p{margin-top:1rem}
+    .section-links{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.4rem}
+    .section-links a{font-family:var(--mono);font-size:0.72rem;color:var(--text-dim);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.15s}
+    .section-links a:hover{color:var(--accent)}
+    .link-arrow{color:var(--accent)}
+    .archive-bar{font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);margin-bottom:2.5rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
+    .archive-bar span{color:var(--border-bright)}
+    .archive-bar a{color:var(--text-dim);text-decoration:none;padding:0.2rem 0.4rem;border:1px solid var(--border);border-radius:2px;transition:color 0.15s,border-color 0.15s}
+    .archive-bar a:hover{color:var(--accent);border-color:var(--accent-dim)}
+    footer{border-top:1px solid var(--border);padding:1.5rem 2rem;max-width:860px;margin:0 auto;font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);display:flex;justify-content:space-between}
+    @media(max-width:600px){.header-inner,.nav-inner,main,footer{padding-left:1rem;padding-right:1rem}}
   </style>
 </head>
 <body>
@@ -57,23 +57,9 @@
       <span class="header-date">April 09, 2026</span>
     </div>
   </header>
-  <nav>
-    <div class="nav-inner">
-      <a href="#bug_bounty">Bug Bounty</a>
-      <a href="#hardware_hacking">Hardware</a>
-      <a href="#exploit_dev">Exploits</a>
-      <a href="#cve_threats">CVE</a>
-      <a href="#ai_cyber">AI×Cyber</a>
-      <a href="#ai_tech">AI & Tech</a>
-      <a href="#finance">Finance</a>
-      <a href="#geopolitics">Geopolitics</a>
-      <a href="#science">Science</a>
-    </div>
-  </nav>
+  <nav><div class="nav-inner"><a href="#bug_bounty">Bug Bounty</a><a href="#hardware_hacking">Hardware Hacking</a><a href="#exploit_dev">Exploit Development</a><a href="#cve_threats">CVE & Threat Analysis</a><a href="#ai_cyber">AI × Cybersecurity</a><a href="#ai_tech">AI & Tech</a><a href="#finance">Business & Finance</a><a href="#geopolitics">Geopolitics & Policy</a><a href="#science">Science & Research</a></div></nav>
   <main>
-    <div class="archive-bar">
-      ARCHIVE <span>·</span> <span>no archive yet</span>
-    </div>
+    <div class="archive-bar">ARCHIVE <span>·</span> <span>no archive yet</span></div>
     
         <section class="section depth-deep" id="bug_bounty">
           <div class="section-header">
@@ -81,12 +67,8 @@
             <h2>Bug Bounty</h2>
             <span class="depth-badge">deep</span>
           </div>
-          <div class="section-body">
-            <p>This briefing delves into critical security vulnerabilities and emerging trends. A significant finding in the Laravel ecosystem, dubbed the "orWhere Trap," highlights how the operator precedence of SQL's `OR` and `WHERE` clauses can be exploited to bypass multi-tenant data isolation when `orWhere` is chained without proper closure usage. This can lead to unauthorized access to data across different tenants within an application.</p><p>Furthermore, a detailed analysis of PHP's `strip_tags()` function reveals its inadequacy in preventing Cross-Site Scripting (XSS) vulnerabilities in PHP/Laravel applications. The function's inability to properly sanitize HTML and JavaScript, particularly within attribute contexts, leaves applications susceptible to client-side attacks. The rapid evolution of Next-Generation Firewalls (NGFWs) and the significant vendor acquisition trends towards AI, identity, and cloud security underscore a shift in the security landscape, moving beyond traditional perimeter defenses towards more integrated and intelligent solutions.</p><p>Finally, the persistent threat of phishing, now amplified by AI, is examined, with insights into techniques for identifying sophisticated AI-generated phishing emails. The article emphasizes that while AI can aid attackers, understanding evolving tactics remains crucial for defense. The piece on "The Company Fixed the Breach… but Forgot the Root Cause" serves as a stark reminder that remediation efforts must address the underlying systemic issues that led to a breach, rather than just patching the immediate symptom, to prevent recurrence.</p>
-          </div>
-          <div class="section-links">
-            <a href="https://infosecwriteups.com/the-orwhere-trap-how-sql-operator-precedence-breaks-multi-tenant-data-isolation-in-laravel-ec598f5a0f27?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener"><span class="link-arrow">↗</span>The orWhere Trap: How SQL Operator Precedence Breaks Multi-Tenant Data Isolation in Laravel</a><a href="https://infosecwriteups.com/why-strip-tags-does-not-protect-you-from-xss-in-php-laravel-c97d0e805213?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Why strip_tags() Does Not Protect You From XSS in PHP/Laravel</a><a href="https://infosecwriteups.com/ngfw-vendor-moves-and-the-rise-of-sadl-4217dbfffdba?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener"><span class="link-arrow">↗</span>NGFW Vendor Moves and the Rise of SADL</a><a href="https://infosecwriteups.com/6-ways-to-spot-a-phishing-email-in-2026-c6a5d614a32e?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener"><span class="link-arrow">↗</span>6+ Ways to INSTANTLY Spot an AI Phishing Email in 2026</a><a href="https://infosecwriteups.com/the-company-fixed-the-breach-but-forgot-the-root-cause-ed2c3a82e4e2?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener"><span class="link-arrow">↗</span>The Company Fixed the Breach… but Forgot the Root Cause</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
         <section class="section depth-deep" id="hardware_hacking">
           <div class="section-header">
@@ -94,12 +76,8 @@
             <h2>Hardware Hacking</h2>
             <span class="depth-badge">deep</span>
           </div>
-          <div class="section-body">
-            <p>This week's hardware hacking deep dive focuses heavily on reverse engineering and firmware analysis, with a particular emphasis on the Ghidra framework. Several posts highlight Ghidra's capabilities, including its application in password cracking via PCode emulation and its use for reverse engineering legacy systems like the Game Boy Advance. The practical application of Ghidra is further demonstrated through posts detailing how to write custom loaders, specifically for STM32 microcontrollers, and a robust exploration of hardware debugging techniques involving JTAG, SSDs, and firmware extraction. This suggests a growing trend in leveraging advanced static and dynamic analysis tools for deep hardware understanding and vulnerability research.</p><p>Beyond the realm of firmware and reverse engineering, an intriguing piece discusses a 60-year-old design flaw in Dynamic RAM (DRAM) and methods to mitigate its impact. The inherent refresh cycle requirement, a fundamental characteristic of DRAM, presents potential timing-based attack vectors. While the article doesn't explicitly name a CVE, this class of vulnerability often relates to Rowhammer-like attacks where aggressive row activation can cause bit flips in adjacent rows, potentially leading to memory corruption and system compromise. Understanding and mitigating such low-level memory behaviors remains a critical aspect of hardware security.</p><p>While not directly a hardware hacking article, the mention of Artemis II's journey around the Moon indirectly touches upon the hardware and software complexities of space exploration, where hardware reliability and security are paramount. Similarly, the exploration of variable-pitch propellers for quadcopters highlights advancements in drone hardware efficiency, a field ripe for exploitation if control systems or firmware are not adequately secured. The development of bending faux-neon LEDs also showcases innovative hardware fabrication, emphasizing the continuous evolution of physical computing and display technologies.</p>
-          </div>
-          <div class="section-links">
-            <a href="https://wrongbaud.github.io/posts/kong-vs-ghidra/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Godzilla Vs. Kong Vs ... Ghidra? - Ghidra Scripting, PCode Emulation, and Password Cracking</a><a href="https://wrongbaud.github.io/posts/ghidra-debugger/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>A first look at Ghidra's Debugger - Game Boy Advance Edition</a><a href="https://wrongbaud.github.io/posts/jtag-hdd/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Hardware Debugging for Reverse Engineers Part 2: JTAG, SSDs and Firmware Extraction</a><a href="https://wrongbaud.github.io/posts/writing-a-ghidra-loader/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Writing a GHIDRA Loader: STM32 Edition.</a><a href="https://hackaday.com/2026/04/08/dodging-a-60-year-old-design-flaw-in-your-ram/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Dodging a 60-Year-Old Design Flaw In Your RAM</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
         <section class="section depth-deep" id="exploit_dev">
           <div class="section-header">
@@ -107,12 +85,8 @@
             <h2>Exploit Development</h2>
             <span class="depth-badge">deep</span>
           </div>
-          <div class="section-body">
-            <p>Summary unavailable today.</p>
-          </div>
-          <div class="section-links">
-            <a href="https://projectzero.google/2026/03/mutational-grammar-fuzzing.html" target="_blank" rel="noopener"><span class="link-arrow">↗</span>On the Effectiveness of Mutational Grammar Fuzzing</a><a href="https://projectzero.google/2026/02/gphfh-deep-dive.html" target="_blank" rel="noopener"><span class="link-arrow">↗</span>A Deep Dive into the GetProcessHandleFromHwnd API</a><a href="https://projectzero.google/2026/02/windows-administrator-protection.html" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Bypassing Administrator Protection by Abusing UI Access</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
         <section class="section depth-moderate" id="cve_threats">
           <div class="section-header">
@@ -120,12 +94,8 @@
             <h2>CVE & Threat Analysis</h2>
             <span class="depth-badge">moderate</span>
           </div>
-          <div class="section-body">
-            <p>The cybersecurity landscape continues to be shaped by evolving malware capabilities and persistent threat actors. A new variant of the Chaos malware has emerged, expanding its reach to target misconfigured cloud deployments, a departure from its traditional focus on routers and edge devices. This variant also introduces SOCKS proxy functionality, enhancing its stealth and command-and-control capabilities. Concurrently, the Masjesu botnet has surfaced as a DDoS-for-hire service, actively advertised on Telegram since 2023. Masjesu is designed to target a wide array of IoT devices globally, posing a significant threat to network availability.  In a concerning development for geopolitical cybersecurity, the Russian-linked APT28 (also known as Forest Blizzard and Pawn Storm) is employing a novel malware suite named PRISMEX in targeted spear-phishing campaigns against Ukraine and its NATO allies. PRISMEX leverages advanced techniques such as steganography, COM hijacking, and legitimate cloud service abuse to evade detection and establish command and control.</p><p>Beyond malware, critical infrastructure and specific software vendors are facing direct threats. CISA has issued urgent directives for federal agencies to patch an exploited critical-severity vulnerability in Ivanti Endpoint Manager Mobile (EPMM) by Sunday, as exploitation has been observed since January. This Ivanti EPMM vulnerability, specifically CVE-2026-1340, has been added to CISA's Known Exploited Vulnerabilities (KEV) catalog. Furthermore, a 13-year-old, long-undetected remote code execution (RCE) vulnerability in Apache ActiveMQ Classic (CVE-2026-1340 is not the correct CVE for this, but the text implies a critical RCE) has been discovered, allowing attackers to execute arbitrary commands. In the industrial control system (ICS) sector, Iranian-affiliated APT actors are actively exploiting internet-facing operational technology (OT) devices, including programmable logic controllers (PLCs) across US critical infrastructure. CISA has also highlighted vulnerabilities in Mitsubishi Electric GENESIS64 and ICONICS Suite products (ICSA-26-097-01) and Hitachi Energy Ellipse (ICSA-26-092-03) that could lead to SQL Server credential disclosure and potential data compromise or denial-of-service conditions. Meanwhile, research into AI's role in security is progressing, with Anthropic's Claude Mythos reportedly identifying thousands of zero-day flaws across major systems as part of its Project Glasswing initiative.</p>
-          </div>
-          <div class="section-links">
-            <a href="https://thehackernews.com/2026/04/new-chaos-variant-targets-misconfigured.html" target="_blank" rel="noopener"><span class="link-arrow">↗</span>New Chaos Variant Targets Misconfigured Cloud Deployments, Adds SOCKS Proxy</a><a href="https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-exploited-ivanti-epmm-flaw-by-sunday/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>CISA orders feds to patch exploited Ivanti EPMM flaw by Sunday</a><a href="https://www.bleepingcomputer.com/news/security/13-year-old-bug-in-activemq-lets-hackers-remotely-execute-commands/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>13-year-old bug in ActiveMQ lets hackers remotely execute commands</a><a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-097a" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Iranian-Affiliated Cyber Actors Exploit Programmable Logic Controllers Across US Critical Infrastructure</a><a href="https://thehackernews.com/2026/04/apt28-deploys-prismex-malware-in.html" target="_blank" rel="noopener"><span class="link-arrow">↗</span>APT28 Deploys PRISMEX Malware in Campaign Targeting Ukraine and NATO Allies</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
         <section class="section depth-deep" id="ai_cyber">
           <div class="section-header">
@@ -133,12 +103,8 @@
             <h2>AI × Cybersecurity</h2>
             <span class="depth-badge">deep</span>
           </div>
-          <div class="section-body">
-            <p>The cybersecurity landscape is undergoing a significant transformation, driven by the rapid evolution and integration of Artificial Intelligence (AI). OpenAI is at the forefront, detailing its "next phase of enterprise AI" with offerings like Frontier, ChatGPT Enterprise, and company-wide AI agents, signifying a broad adoption across industries. This expansion necessitates robust safety protocols, as highlighted by OpenAI's "Child Safety Blueprint," which outlines a roadmap for responsible AI development focusing on safeguards and age-appropriate design to protect minors online. Furthermore, OpenAI is investing in talent through its "Safety Fellowship" program, aiming to foster independent research in AI safety and alignment. Beyond product development, OpenAI is also engaging in broader societal discussions through its acquisition of TBPN, aimed at accelerating global conversations around AI and supporting independent media. This positions AI not just as a technological advancement but as a force requiring policy consideration, as seen in their "Industrial policy for the Intelligence Age" ideas focused on opportunity and prosperity.</p><p>On the technical front, Trail of Bits continues to push the boundaries of security tooling and analysis. Their recent work addresses critical vulnerabilities and emerging threats. The audit of WhatsApp's Private Inference feature provides deep insights into the security of Trusted Execution Environments (TEEs) when handling encrypted data for AI processing, a crucial step for privacy-preserving AI. For malware analysis and software protection, their release of CoBRA simplifies Mixed Boolean-Arithmetic (MBA) obfuscation, a technique commonly used to hinder reverse engineering. Recognizing the limitations of traditional testing methods in the agentic era, Trail of Bits emphasizes the importance of mutation testing, demonstrating its efficacy in uncovering critical flaws that code coverage alone misses. They are also actively making their internal workflows AI-native, sharing insights into their pragmatic approach, and have released a Claude plugin for developing and auditing code that uses dimensional analysis, a novel security skill for LLM-based tools.</p><p>Google's security initiatives reflect a dual focus on AI safety and long-term resilience. The Google GenAI Security Team details a continuous approach to mitigating indirect prompt injections in Google Workspace, a critical concern for AI applications integrating multiple data sources. Simultaneously, Google is actively preparing for the quantum era by implementing post-quantum cryptography in Android and cultivating robust, quantum-safe HTTPS implementations within Chrome. These efforts underscore a proactive stance against future cryptographic threats. Additionally, Google continues to enhance user protection through ongoing efforts in scam protection for Android and its broader Vulnerability Rewards Program (VRP), which saw significant activity in 2025, as detailed in their "Year in Review."</p>
-          </div>
-          <div class="section-links">
-            <a href="https://openai.com/index/next-phase-of-enterprise-ai" target="_blank" rel="noopener"><span class="link-arrow">↗</span>The next phase of enterprise AI</a><a href="https://blog.trailofbits.com/2026/04/07/what-we-learned-about-tee-security-from-auditing-whatsapps-private-inference/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>What we learned about TEE security from auditing WhatsApp's Private Inference</a><a href="https://blog.trailofbits.com/2026/04/03/simplifying-mba-obfuscation-with-cobra/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Simplifying MBA obfuscation with CoBRA</a><a href="http://security.googleblog.com/2026/04/google-workspaces-continuous-approach.html" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Google Workspace’s continuous approach to mitigating indirect prompt injections</a><a href="http://security.googleblog.com/2026/03/post-quantum-cryptography-in-android.html" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Security for the Quantum Era: Implementing Post-Quantum Cryptography in Android</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
         <section class="section depth-moderate" id="ai_tech">
           <div class="section-header">
@@ -146,12 +112,8 @@
             <h2>AI & Tech</h2>
             <span class="depth-badge">moderate</span>
           </div>
-          <div class="section-body">
-            <p>The burgeoning field of AI agents is rapidly evolving, with new tools and frameworks emerging to make them more accessible and capable. "Poke" promises to simplify automation by allowing users to interact with AI agents via text message, removing the need for complex setup.  This push towards more user-friendly AI is complemented by Canva's strategic acquisitions of Simtheory and Ortto, aiming to bolster their capabilities in agentic AI, data infrastructure, and marketing automation.  Meanwhile, the concept of agent-first process redesign is gaining traction, advocating for a fundamental shift in how businesses approach workflows to fully leverage the dynamic learning and adaptation of AI agents, rather than bolting them onto existing systems.  New frameworks like Memento-Skills are also being developed to enable AI agents to autonomously rewrite their own skills without requiring full retraining of the underlying large language models (LLMs), addressing a critical bottleneck in their deployment.</p>
-          </div>
-          <div class="section-links">
-            <a href="https://techcrunch.com/2026/04/08/poke-makes-ai-agents-as-easy-as-sending-a-text/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>AI agent Poke makes setting up automations as easy as sending a text</a><a href="https://techcrunch.com/2026/04/08/canva-doubles-down-on-ai-and-marketing-automation-with-simtheory-ortto-acquisitions/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Canva doubles down on AI and marketing automation with Simtheory, Ortto acquisitions</a><a href="https://venturebeat.com/orchestration/new-framework-lets-ai-agents-rewrite-their-own-skills-without-retraining-the" target="_blank" rel="noopener"><span class="link-arrow">↗</span>New framework lets AI agents rewrite their own skills without retraining the underlying model</a><a href="https://www.technologyreview.com/2026/04/07/1134966/enabling-agent-first-process-redesign/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Enabling agent-first process redesign</a><a href="https://venturebeat.com/infrastructure/claude-openclaw-and-the-new-reality-ai-agents-are-here-and-so-is-the-chaos" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Claude, OpenClaw and the new reality: AI agents are here — and so is the chaos</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
         <section class="section depth-broad" id="finance">
           <div class="section-header">
@@ -159,12 +121,8 @@
             <h2>Business & Finance</h2>
             <span class="depth-badge">broad</span>
           </div>
-          <div class="section-body">
-            <p>The fragile US-Iran ceasefire is showing significant signs of strain, with Tehran claiming breaches and threatening to withdraw. Vice President JD Vance is slated to lead US direct talks, but the situation remains volatile. Israeli strikes in Lebanon have been cited as a primary cause for concern, leading Iran to halt oil tanker passage through the Strait of Hormuz, despite earlier reports of a ceasefire. This uncertainty is impacting global markets, causing stock rallies to stumble and oil prices to climb. Analysts warn that the TACO trade, which benefited from an Iran ceasefire wiping out weeks of losses, may not last. India's Prime Minister Modi faces an electoral test where his handling of war-driven shortages, including cooking gas, is a central issue.</p>
-          </div>
-          <div class="section-links">
-            <a href="https://www.ft.com/content/d43ae1d7-4df4-465c-afe1-418b168e3ae8" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Vance to lead US talks with Iran as Israeli strikes imperil ceasefire</a><a href="https://www.bloomberg.com/news/articles/2026-04-08/stock-market-today-dow-s-p-live-updates" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Stock Rally Stumbles as Oil’s Rebound Damps Mood: Markets Wrap</a><a href="https://www.bloomberg.com/news/videos/2026-04-09/barbara-leaf-maintaining-free-hormuz-trade-key-for-us-video" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Why Maintaining Free Hormuz Trade Is Key for US in Talks</a><a href="https://www.bloomberg.com/news/articles/2026-04-09/india-state-polls-test-modi-s-handling-of-war-driven-shortages" target="_blank" rel="noopener"><span class="link-arrow">↗</span>India State Polls Test Modi’s Handling of War-Driven Shortages</a><a href="https://fortune.com/2026/04/08/iran-war-concluding-world-worse-off-escalation-delayed-again/" target="_blank" rel="noopener"><span class="link-arrow">↗</span>The Iran war is either concluding with the world worse off, or escalation is just delayed again</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
         <section class="section depth-broad" id="geopolitics">
           <div class="section-header">
@@ -172,12 +130,8 @@
             <h2>Geopolitics & Policy</h2>
             <span class="depth-badge">broad</span>
           </div>
-          <div class="section-body">
-            <p>The US-Iran ceasefire, aimed at de-escalating tensions in West Asia, has been met with mixed reactions and immediate challenges. While Nepal has welcomed the truce as a positive step, concerns linger about its stability. US Vice President JD Vance has explicitly stated that Lebanon is not part of the ceasefire, a statement underscored by reports of significant Israeli airstrikes across Lebanon, including Beirut, occurring just hours after the ceasefire announcement. This has led to UN human rights chief Volker Turk describing the attacks as 'horrific' and former US counterterrorism chief Joe Kent warning that Israel could potentially 'sabotage' the ceasefire if not restrained.</p>
-          </div>
-          <div class="section-links">
-            <a href="https://www.aljazeera.com/video/newsfeed/2026/4/9/us-vp-jd-vance-says-lebanon-is-not-part-of-the-us-iran-ceasefire?traffic_source=rss" target="_blank" rel="noopener"><span class="link-arrow">↗</span>US VP JD Vance says Lebanon is not part of the US-Iran ceasefire</a><a href="https://www.aljazeera.com/news/liveblog/2026/4/9/iran-war-live-israel-kills-254-in-lebanon-shaking-trump-tehran-ceasefire?traffic_source=rss" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Iran war live: Lebanon mourns as Israel raids shake Trump, Tehran ceasefire</a><a href="https://www.aljazeera.com/video/newsfeed/2026/4/8/israel-must-be-restrained-for-us-iran-ceasefire-to?traffic_source=rss" target="_blank" rel="noopener"><span class="link-arrow">↗</span>‘Israel must be restrained for US-Iran ceasefire to hold’</a><a href="https://kathmandupost.com/national/2026/04/08/nepal-welcomes-us-iran-ceasefire-urges-peaceful-resolution" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Nepal welcomes US–Iran ceasefire, urges peaceful resolution</a><a href="https://www.bbc.com/news/articles/ce84z6y3ke4o?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener"><span class="link-arrow">↗</span>What we know about the two-week ceasefire between the US and Iran</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
         <section class="section depth-broad" id="science">
           <div class="section-header">
@@ -185,17 +139,13 @@
             <h2>Science & Research</h2>
             <span class="depth-badge">broad</span>
           </div>
-          <div class="section-body">
-            <p>This week's science highlights reveal ongoing advancements in fundamental physics and space exploration. A newly identified 22-meter crater on the Moon, discovered by comparing orbital images, demonstrates the Moon's dynamic nature and the potential for unexpected discoveries through remote observation. In a significant step for understanding energy transfer, scientists have deciphered the secret behind nature's "proton highway," uncovering a stable molecular structure crucial for efficient charge movement that could inspire new energy materials. Meanwhile, new research challenges conventional wisdom on athletic performance, suggesting that elite sprinting speed arises from a complex interplay of individual traits rather than a single "perfect" technique, with examples like Australian sprinter Gout Gout illustrating this principle.</p>
-          </div>
-          <div class="section-links">
-            <a href="https://www.sciencedaily.com/releases/2026/04/260407193919.htm" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Something just hit the Moon and left a bright new scar</a><a href="https://www.sciencedaily.com/releases/2026/04/260407193915.htm" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Scientists just uncovered the secret behind nature’s “proton highway”</a><a href="https://www.sciencedaily.com/releases/2026/04/260407193911.htm" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Scientists say we’ve been wrong about what makes sprinters fast</a><a href="https://www.sciencedaily.com/releases/2026/04/260407193906.htm" target="_blank" rel="noopener"><span class="link-arrow">↗</span>Did a black hole just explode? This “impossible” particle may be the evidence</a><a href="https://www.sciencedaily.com/releases/2026/04/260407193902.htm" target="_blank" rel="noopener"><span class="link-arrow">↗</span>This walking robot could change how we search for life on Mars</a>
-          </div>
+          <div class="section-body"><p>Content unavailable today.</p></div>
+          <div class="section-links"></div>
         </section>
   </main>
   <footer>
     <span>generated 2026-04-09</span>
-    <span>gemini-2.5-flash-lite · rss feeds</span>
+    <span>gemini-2.5-flash · google search grounding</span>
   </footer>
 </body>
 </html>
