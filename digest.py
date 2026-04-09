@@ -1,4 +1,5 @@
 import os
+import re
 import datetime
 from pathlib import Path
 from google import genai
@@ -12,6 +13,30 @@ DOCS_DIR = Path("docs")
 ARCHIVE_DIR = DOCS_DIR / "archive"
 ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
 
+# ── Markdown → clean HTML ─────────────────────────────────────────────────────
+def md_to_html(text: str) -> str:
+    """Convert Gemini markdown output to safe inline HTML."""
+    # Remove horizontal rules
+    text = re.sub(r'\n?---+\n?', '\n', text)
+    # Bold **text** or __text__
+    text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+    text = re.sub(r'__(.+?)__', r'<strong>\1</strong>', text)
+    # Italic *text* or _text_
+    text = re.sub(r'\*(.+?)\*', r'<em>\1</em>', text)
+    text = re.sub(r'_(.+?)_', r'<em>\1</em>', text)
+    # Inline code `code`
+    text = re.sub(r'`(.+?)`', r'<code>\1</code>', text)
+    # Headers → bold paragraph
+    text = re.sub(r'^#{1,4}\s+(.+)$', r'<strong>\1</strong>', text, flags=re.MULTILINE)
+    # Bullet points → inline with dash
+    text = re.sub(r'^\s*[\*\-]\s+', '• ', text, flags=re.MULTILINE)
+    # Numbered lists → keep number
+    text = re.sub(r'^\s*\d+\.\s+', lambda m: m.group(0).strip() + ' ', text, flags=re.MULTILINE)
+    # Paragraph breaks
+    text = re.sub(r'\n{2,}', '</p><p>', text)
+    text = re.sub(r'\n', ' ', text)
+    return text.strip()
+
 # ── Topic Definitions ─────────────────────────────────────────────────────────
 TOPICS = [
     {
@@ -19,127 +44,118 @@ TOPICS = [
         "icon": "🐛",
         "label": "Bug Bounty",
         "depth": "deep",
-        "prompt": """You are a senior bug bounty researcher writing a daily briefing for {date}.
-Search for today's most significant bug bounty news. Focus on:
-- New vulnerability disclosures and writeups from researchers
-- HackerOne, Bugcrowd, Intigriti program updates or payouts
-- Interesting CVEs that originated from bounty programs
-- Researcher techniques, methodologies, and tooling
-- Notable bug bounty wins or record payouts
-Write 3 detailed paragraphs. Be technically specific — name vulnerabilities,
-affected systems, CVSS scores, and researcher names where available."""
+        "prompt": """Search Google for the latest bug bounty news as of {date}.
+Find recent vulnerability disclosures, researcher writeups, HackerOne/Bugcrowd/Intigriti 
+program updates, notable payouts, and new researcher techniques.
+
+Write EXACTLY 2 short paragraphs (4-5 sentences each). Be specific: name vulnerabilities,
+affected systems, CVSS scores, researcher names. NO bullet points. NO markdown headers.
+NO bold text. Plain prose only. Keep total response under 200 words."""
     },
     {
         "key": "hardware_hacking",
         "icon": "⚙️",
         "label": "Hardware Hacking",
         "depth": "deep",
-        "prompt": """You are a hardware security researcher writing a daily briefing for {date}.
-Search for today's most significant hardware hacking news. Focus on:
-- Firmware vulnerabilities and reverse engineering findings
-- Embedded systems and IoT security research
-- Side-channel attacks, fault injection, RF hacking
-- Physical security bypasses and supply chain attacks
-- New hardware hacking tools, techniques, and publications
-Write 3 detailed paragraphs. Name chips, architectures, attack vectors,
-affected devices, and researchers where available."""
+        "prompt": """Search Google for the latest hardware hacking and embedded security news as of {date}.
+Find firmware vulnerabilities, IoT security research, side-channel attacks, fault injection,
+RF hacking, supply chain security, and new hardware hacking tools or publications.
+
+Write EXACTLY 2 short paragraphs (4-5 sentences each). Be specific: name chips,
+architectures, attack vectors, and affected devices. NO bullet points. NO markdown headers.
+NO bold text. Plain prose only. Keep total response under 200 words."""
     },
     {
         "key": "exploit_dev",
         "icon": "💥",
         "label": "Exploit Development",
         "depth": "deep",
-        "prompt": """You are an exploit development researcher writing a daily briefing for {date}.
-Search for today's most significant exploit development news. Focus on:
-- New exploit techniques, bypasses, and primitives
-- Public PoC releases and proof of concept code
-- Kernel exploits, browser exploits, memory corruption research
-- Mitigation bypasses (ASLR, CFI, stack canaries, etc.)
-- CTF writeups with deep exploit development content
-- Project Zero, ZDI, and security lab publications
-Write 3 detailed paragraphs. Name CVEs, affected versions, exploit
-primitives used, and researchers where available."""
+        "prompt": """Search Google for the latest exploit development news as of {date}.
+Find new exploit techniques, public PoC releases, kernel/browser exploits, memory corruption
+research, mitigation bypasses, CTF writeups, and Project Zero or ZDI publications.
+
+Write EXACTLY 2 short paragraphs (4-5 sentences each). Be specific: name CVEs, affected
+versions, exploit primitives. NO bullet points. NO markdown headers. NO bold text.
+Plain prose only. Keep total response under 200 words."""
     },
     {
         "key": "cve_threats",
         "icon": "🔍",
         "label": "CVE & Threat Analysis",
         "depth": "moderate",
-        "prompt": """You are a threat intelligence analyst writing a daily briefing for {date}.
-Search for today's most significant CVEs and threat activity. Focus on:
-- Critical and high severity CVEs published or exploited today
-- CISA KEV (Known Exploited Vulnerabilities) additions
-- Active threat actor campaigns and TTPs
-- Malware campaigns and ransomware activity
-Write 2-3 paragraphs. Name specific CVE IDs, CVSS scores, affected products,
-and threat actor groups where available."""
+        "prompt": """Search Google for today's most critical CVEs and active threat intelligence as of {date}.
+Find high/critical severity CVEs being exploited, CISA KEV additions, active threat actor
+campaigns, ransomware activity, and significant malware campaigns.
+
+Write EXACTLY 2 short paragraphs (4-5 sentences each). Name specific CVE IDs, CVSS scores,
+affected products, threat actors. NO bullet points. NO markdown headers. NO bold text.
+Plain prose only. Keep total response under 200 words."""
     },
     {
         "key": "ai_cyber",
         "icon": "🤖",
         "label": "AI × Cybersecurity",
         "depth": "deep",
-        "prompt": """You are an AI security researcher writing a daily briefing for {date}.
-Search for today's most significant AI and cybersecurity intersection news. Focus on:
-- LLM vulnerabilities — prompt injection, jailbreaks, model inversion
-- AI-powered attacks and offensive security tools
-- Defensive AI — detection models, AI-driven SOC tools
-- Research on securing AI pipelines, RAG, vector databases
-- AI red teaming techniques and findings
-Write 3 detailed paragraphs. Name models, attack techniques, researchers,
-and organizations where available."""
+        "prompt": """Search Google for the latest AI and cybersecurity intersection news as of {date}.
+Find LLM vulnerabilities, prompt injection research, AI-powered attacks, defensive AI tools,
+AI red teaming findings, and research on securing AI pipelines or RAG systems.
+
+Write EXACTLY 2 short paragraphs (4-5 sentences each). Name models, attack techniques,
+researchers, organizations. NO bullet points. NO markdown headers. NO bold text.
+Plain prose only. Keep total response under 200 words."""
     },
     {
         "key": "ai_tech",
         "icon": "💡",
         "label": "AI & Tech",
         "depth": "moderate",
-        "prompt": """You are a technology analyst writing a daily briefing for {date}.
-Search for today's most notable AI and technology developments. Focus on:
-- Major AI model releases, updates, or announcements
-- Significant research papers and breakthroughs
-- Industry moves — funding, acquisitions, partnerships
-- Developer tools, frameworks, and platform updates
-Write 2-3 paragraphs. Be specific with model names, company names, and numbers."""
+        "prompt": """Search Google for the most important AI and technology news as of {date}.
+Find major model releases, research breakthroughs, significant funding or acquisitions,
+developer tool updates, and AI policy or regulation news.
+
+Write EXACTLY 2 short paragraphs (4-5 sentences each). Be specific with model names,
+company names, dollar amounts. NO bullet points. NO markdown headers. NO bold text.
+Plain prose only. Keep total response under 200 words."""
     },
     {
         "key": "finance",
         "icon": "💰",
         "label": "Business & Finance",
         "depth": "broad",
-        "prompt": """You are a financial analyst writing a daily market briefing for {date}.
-Search for today's most important business and finance news. Focus on:
-- Global market movements and key indices
-- Major corporate earnings, mergers, acquisitions
-- Central bank decisions and macroeconomic indicators
-- Commodity prices (oil, gold) and currency moves
-Write 2 concise paragraphs. Include specific numbers, percentages, and company names."""
+        "prompt": """Search Google for today's most important global business and finance news as of {date}.
+Find market movements, major earnings or M&A, central bank decisions, commodity prices,
+and key macroeconomic developments.
+
+Write EXACTLY 2 short paragraphs (4-5 sentences each). Include specific index levels,
+percentages, company names. NO bullet points. NO markdown headers. NO bold text.
+Plain prose only. Keep total response under 150 words."""
     },
     {
         "key": "geopolitics",
         "icon": "🌍",
         "label": "Geopolitics & Policy",
         "depth": "broad",
-        "prompt": """You are a geopolitical analyst writing a daily briefing for {date}.
-Search for today's most important geopolitical and policy news. Cover:
-- Nepal: political developments, economy, government decisions, significant local events
-- Canada: federal/provincial politics, major policy decisions, US-Canada relations
-- Global: significant international conflicts, diplomacy, elections, UN developments
-Write 2-3 paragraphs covering Nepal, Canada, and global highlights.
-Be specific with names, locations, and context."""
+        "prompt": """Search Google for today's most important geopolitical news as of {date}.
+Cover three areas: (1) Nepal — political developments, economy, government decisions,
+(2) Canada — federal politics, US-Canada relations, major policy decisions,
+(3) Global — significant conflicts, diplomacy, elections, UN developments.
+
+Write EXACTLY 3 short paragraphs, one per area (3-4 sentences each). Be specific with
+names and locations. NO bullet points. NO markdown headers. NO bold text.
+Plain prose only. Keep total response under 200 words."""
     },
     {
         "key": "science",
         "icon": "🔬",
         "label": "Science & Research",
         "depth": "broad",
-        "prompt": """You are a science journalist writing a daily briefing for {date}.
-Search for today's most notable science and research developments. Focus on:
-- Breakthrough research papers and findings
-- Space exploration and astronomy news
-- Medical and health research advances
-- Climate and environmental science
-Write 2 concise paragraphs. Name specific researchers, institutions, and journals."""
+        "prompt": """Search Google for today's most notable science and research news as of {date}.
+Find breakthrough papers, space exploration news, medical research advances,
+climate science developments, and notable discoveries in physics or biology.
+
+Write EXACTLY 2 short paragraphs (4-5 sentences each). Name researchers, institutions,
+journals where possible. NO bullet points. NO markdown headers. NO bold text.
+Plain prose only. Keep total response under 150 words."""
     },
 ]
 
@@ -155,14 +171,27 @@ def fetch_and_summarize(topic: dict) -> dict:
             config=types.GenerateContentConfig(
                 tools=[types.Tool(google_search=types.GoogleSearch())],
                 temperature=1.0,
-                max_output_tokens=2000,
+                max_output_tokens=600,   # tight cap to enforce brevity
             )
         )
 
-        summary = response.text.strip() if response.text else "No content returned."
-        print(f"     summary length: {len(summary)} chars")
+        raw = response.text.strip() if response.text else ""
+        print(f"     raw length: {len(raw)} chars")
 
-        # Extract grounding source links from metadata
+        if not raw:
+            print(f"     [WARN] empty response — retrying without grounding...")
+            # Fallback: ask without search grounding using training knowledge
+            fallback = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt.replace("Search Google for", "Based on your knowledge, summarize"),
+                config=types.GenerateContentConfig(temperature=0.7, max_output_tokens=400)
+            )
+            raw = fallback.text.strip() if fallback.text else "No content available today."
+
+        # Convert markdown to clean HTML
+        summary_html = md_to_html(raw)
+
+        # Extract grounding source links
         links = []
         try:
             chunks = response.candidates[0].grounding_metadata.grounding_chunks
@@ -172,15 +201,15 @@ def fetch_and_summarize(topic: dict) -> dict:
                         "title": chunk.web.title or chunk.web.uri,
                         "url": chunk.web.uri
                     })
-            print(f"     grounding links found: {len(links)}")
+            print(f"     links: {len(links)}")
         except Exception as e:
             print(f"     grounding metadata unavailable: {e}")
 
-        return {"summary": summary, "links": links[:6]}
+        return {"summary": summary_html, "links": links[:6]}
 
     except Exception as e:
         print(f"  [ERROR] {topic['key']}: {type(e).__name__}: {e}")
-        return {"summary": f"Error: {type(e).__name__}: {str(e)[:300]}", "links": []}
+        return {"summary": f"Unavailable today ({type(e).__name__}).", "links": []}
 
 # ── Build HTML ─────────────────────────────────────────────────────────────────
 def build_html(date: datetime.date, sections: dict, archive_links: str) -> str:
@@ -192,7 +221,6 @@ def build_html(date: datetime.date, sections: dict, archive_links: str) -> str:
         key = topic["key"]
         data = sections.get(key, {"summary": "No content.", "links": []})
         depth = topic["depth"]
-        summary_html = data["summary"].replace("\n\n", "</p><p>").replace("\n", "<br>")
         links_html = "".join(
             f'<a href="{l["url"]}" target="_blank" rel="noopener">'
             f'<span class="link-arrow">↗</span>{l["title"]}</a>'
@@ -205,8 +233,8 @@ def build_html(date: datetime.date, sections: dict, archive_links: str) -> str:
             <h2>{topic["label"]}</h2>
             <span class="depth-badge">{depth}</span>
           </div>
-          <div class="section-body"><p>{summary_html}</p></div>
-          <div class="section-links">{links_html}</div>
+          <div class="section-body"><p>{data["summary"]}</p></div>
+          {'<div class="section-links">' + links_html + '</div>' if links_html else ''}
         </section>"""
 
     nav_links = "".join(f'<a href="#{t["key"]}">{t["label"]}</a>' for t in TOPICS)
@@ -250,11 +278,15 @@ def build_html(date: datetime.date, sections: dict, archive_links: str) -> str:
     .depth-moderate .depth-badge{{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}}
     .depth-broad .depth-badge{{background:rgba(96,165,250,0.1);color:var(--blue);border:1px solid rgba(96,165,250,0.2)}}
     .section-body{{padding:1.5rem;font-size:0.95rem;color:var(--text)}}
+    .section-body p{{margin:0}}
     .section-body p+p{{margin-top:1rem}}
+    .section-body strong{{color:var(--text-bright)}}
+    .section-body em{{color:var(--text-dim);font-style:italic}}
+    .section-body code{{font-family:var(--mono);font-size:0.8rem;background:var(--surface);padding:0.1rem 0.3rem;border-radius:2px;color:var(--accent)}}
     .section-links{{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.4rem}}
-    .section-links a{{font-family:var(--mono);font-size:0.72rem;color:var(--text-dim);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.15s}}
+    .section-links a{{font-family:var(--mono);font-size:0.72rem;color:var(--text-dim);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
     .section-links a:hover{{color:var(--accent)}}
-    .link-arrow{{color:var(--accent)}}
+    .link-arrow{{color:var(--accent);flex-shrink:0}}
     .archive-bar{{font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);margin-bottom:2.5rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}}
     .archive-bar span{{color:var(--border-bright)}}
     .archive-bar a{{color:var(--text-dim);text-decoration:none;padding:0.2rem 0.4rem;border:1px solid var(--border);border-radius:2px;transition:color 0.15s,border-color 0.15s}}
@@ -294,15 +326,13 @@ def get_archive_links(current_date: datetime.date) -> str:
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
-    print(f"[INFO] Running digest for {TODAY}")
-    print(f"[INFO] SDK: google-genai (new unified SDK)")
-    print(f"[INFO] Processing {len(TOPICS)} topics...\n")
+    print(f"[INFO] Running digest for {TODAY}\n")
 
     sections = {}
     for topic in TOPICS:
-        print(f"  → [{topic['key']}] calling Gemini with search grounding...")
+        print(f"  → [{topic['key']}]")
         sections[topic["key"]] = fetch_and_summarize(topic)
-        print(f"     ✓ done\n")
+        print()
 
     print("[INFO] Building HTML...")
     archive_links = get_archive_links(TODAY)
@@ -316,7 +346,7 @@ def main():
         old.unlink()
         print(f"[INFO] Removed old archive: {old.name}")
 
-    print(f"\n[DONE] → docs/index.html + docs/archive/{TODAY.isoformat()}.html")
+    print(f"\n[DONE] → docs/index.html")
 
 if __name__ == "__main__":
     main()
