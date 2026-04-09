@@ -22,8 +22,8 @@ TOPICS = [
         "label": "Bug Bounty",
         "depth": "deep",
         "prompt": """
-            You are a senior bug bounty researcher writing a daily briefing.
-            Search for TODAY's most significant bug bounty news ({date}).
+            You are a senior bug bounty researcher writing a daily briefing for {date}.
+            Use Google Search to find today's most significant bug bounty news.
             Focus on:
             - New vulnerability disclosures and writeups from researchers
             - HackerOne, Bugcrowd, Intigriti program updates or payouts
@@ -34,7 +34,6 @@ TOPICS = [
             Write 3 detailed paragraphs covering the most important findings.
             Be technically specific — name the vulnerabilities, affected systems,
             CVSS scores, and researcher names where available.
-            Include 4-5 real source links.
         """
     },
     {
@@ -43,8 +42,8 @@ TOPICS = [
         "label": "Hardware Hacking",
         "depth": "deep",
         "prompt": """
-            You are a hardware security researcher writing a daily briefing.
-            Search for TODAY's most significant hardware hacking news ({date}).
+            You are a hardware security researcher writing a daily briefing for {date}.
+            Use Google Search to find today's most significant hardware hacking news.
             Focus on:
             - Firmware vulnerabilities and reverse engineering findings
             - Embedded systems and IoT security research
@@ -55,7 +54,6 @@ TOPICS = [
             Write 3 detailed paragraphs covering the most important findings.
             Be technically specific — name chips, architectures, attack vectors,
             affected devices, and researchers where available.
-            Include 4-5 real source links.
         """
     },
     {
@@ -64,8 +62,8 @@ TOPICS = [
         "label": "Exploit Development",
         "depth": "deep",
         "prompt": """
-            You are an exploit development researcher writing a daily briefing.
-            Search for TODAY's most significant exploit development news ({date}).
+            You are an exploit development researcher writing a daily briefing for {date}.
+            Use Google Search to find today's most significant exploit development news.
             Focus on:
             - New exploit techniques, bypasses, and primitives
             - Public PoC releases and proof of concept code
@@ -77,7 +75,6 @@ TOPICS = [
             Write 3 detailed paragraphs covering the most important findings.
             Be technically specific — name CVEs, affected versions, exploit
             primitives used, and researchers where available.
-            Include 4-5 real source links.
         """
     },
     {
@@ -86,8 +83,8 @@ TOPICS = [
         "label": "CVE & Threat Analysis",
         "depth": "moderate",
         "prompt": """
-            You are a threat intelligence analyst writing a daily briefing.
-            Search for TODAY's most significant CVEs and threat activity ({date}).
+            You are a threat intelligence analyst writing a daily briefing for {date}.
+            Use Google Search to find today's most significant CVEs and threat activity.
             Focus on:
             - Critical and high severity CVEs published or exploited today
             - CISA KEV (Known Exploited Vulnerabilities) additions
@@ -98,7 +95,6 @@ TOPICS = [
             Write 2-3 paragraphs with solid technical detail.
             Name specific CVE IDs, CVSS scores, affected products,
             and threat actor groups where available.
-            Include 4-5 real source links.
         """
     },
     {
@@ -107,8 +103,8 @@ TOPICS = [
         "label": "AI × Cybersecurity",
         "depth": "deep",
         "prompt": """
-            You are an AI security researcher writing a daily briefing.
-            Search for TODAY's most significant AI and cybersecurity intersection news ({date}).
+            You are an AI security researcher writing a daily briefing for {date}.
+            Use Google Search to find today's most significant AI and cybersecurity news.
             Focus on:
             - LLM vulnerabilities — prompt injection, jailbreaks, model inversion
             - AI-powered attacks and offensive security tools
@@ -120,7 +116,6 @@ TOPICS = [
             Write 3 detailed paragraphs covering the most important findings.
             Be technically specific — name models, attack techniques, researchers,
             and organizations where available.
-            Include 4-5 real source links.
         """
     },
     {
@@ -129,8 +124,8 @@ TOPICS = [
         "label": "AI & Tech",
         "depth": "moderate",
         "prompt": """
-            You are a technology analyst writing a daily briefing.
-            Search for TODAY's most notable AI and technology developments ({date}).
+            You are a technology analyst writing a daily briefing for {date}.
+            Use Google Search to find today's most notable AI and technology news.
             Focus on:
             - Major AI model releases, updates, or announcements
             - Significant research papers and breakthroughs
@@ -140,7 +135,6 @@ TOPICS = [
 
             Write 2-3 paragraphs covering the most important developments.
             Be specific with model names, company names, and numbers.
-            Include 4-5 real source links.
         """
     },
     {
@@ -149,8 +143,8 @@ TOPICS = [
         "label": "Business & Finance",
         "depth": "broad",
         "prompt": """
-            You are a financial analyst writing a daily market briefing.
-            Search for TODAY's most important business and finance news ({date}).
+            You are a financial analyst writing a daily market briefing for {date}.
+            Use Google Search to find today's most important business and finance news.
             Focus on:
             - Global market movements and key indices
             - Major corporate earnings, mergers, acquisitions
@@ -160,7 +154,6 @@ TOPICS = [
 
             Write 2 concise paragraphs with the key highlights.
             Include specific numbers, percentages, and company names.
-            Include 3-4 real source links.
         """
     },
     {
@@ -169,8 +162,8 @@ TOPICS = [
         "label": "Geopolitics & Policy",
         "depth": "broad",
         "prompt": """
-            You are a geopolitical analyst writing a daily briefing.
-            Search for TODAY's most important geopolitical and policy news ({date}).
+            You are a geopolitical analyst writing a daily briefing for {date}.
+            Use Google Search to find today's most important geopolitical news.
             Cover:
             - Nepal: political developments, economy, government decisions,
               natural disasters, significant local events
@@ -181,7 +174,6 @@ TOPICS = [
 
             Write 2-3 paragraphs covering Nepal, Canada, and global highlights.
             Be specific with names, locations, and context.
-            Include 4-5 real source links.
         """
     },
     {
@@ -190,8 +182,8 @@ TOPICS = [
         "label": "Science & Research",
         "depth": "broad",
         "prompt": """
-            You are a science journalist writing a daily briefing.
-            Search for TODAY's most notable science and research developments ({date}).
+            You are a science journalist writing a daily briefing for {date}.
+            Use Google Search to find today's most notable science and research news.
             Focus on:
             - Breakthrough research papers and findings
             - Space exploration and astronomy news
@@ -201,7 +193,6 @@ TOPICS = [
 
             Write 2 concise paragraphs with the key highlights.
             Name specific researchers, institutions, and journals where available.
-            Include 3-4 real source links.
         """
     },
 ]
@@ -211,70 +202,46 @@ def fetch_and_summarize(topic: dict) -> dict:
     """Single Gemini call that searches + summarizes a topic."""
     prompt = topic["prompt"].format(date=TODAY.strftime("%B %d, %Y"))
 
-    # Append JSON output instruction
-    prompt += """
-
-    Respond ONLY in this exact JSON format, no markdown fences:
-    {
-      "summary": "your full summary here with paragraphs separated by \\n\\n",
-      "links": [
-        {"title": "Article or source title", "url": "https://..."},
-        {"title": "Article or source title", "url": "https://..."}
-      ]
-    }
-    """
-
     try:
         response = model.generate_content(
             contents=prompt,
             tools=[types.Tool(google_search=types.GoogleSearch())],
             generation_config=types.GenerationConfig(
-                temperature=1.0,      # recommended for grounding
-                max_output_tokens=1500,
+                temperature=1.0,
+                max_output_tokens=2000,
             )
         )
 
-        text = response.text.strip()
+        # Log raw response for debugging
+        raw = response.text.strip() if response.text else ""
+        print(f"     raw response ({len(raw)} chars): {raw[:200]}...")
 
-        # Strip markdown fences if model adds them anyway
-        if "```" in text:
-            text = text.split("```")[1]
-            if text.startswith("json"):
-                text = text[4:]
-            text = text.strip()
-
-        result = json.loads(text)
-
-        # Also pull any grounding sources Gemini found automatically
+        # Extract grounding sources from metadata
+        links = []
         try:
             chunks = response.candidates[0].grounding_metadata.grounding_chunks
             for chunk in chunks:
                 if hasattr(chunk, "web") and chunk.web.uri:
-                    # Add grounding sources not already in links
-                    existing_urls = {l["url"] for l in result.get("links", [])}
-                    if chunk.web.uri not in existing_urls:
-                        result["links"].append({
-                            "title": chunk.web.title or chunk.web.uri,
-                            "url": chunk.web.uri
-                        })
-        except Exception:
-            pass  # grounding metadata is bonus, not required
+                    links.append({
+                        "title": chunk.web.title or chunk.web.uri,
+                        "url": chunk.web.uri
+                    })
+            print(f"     grounding chunks found: {len(links)}")
+        except Exception as e:
+            print(f"     grounding metadata error: {e}")
 
-        # Cap links at 6
-        result["links"] = result.get("links", [])[:6]
-        return result
+        # Use raw text directly as summary — no JSON parsing needed
+        summary = raw if raw else "No content returned."
 
-    except json.JSONDecodeError as e:
-        print(f"  [WARN] JSON parse failed for {topic['key']}: {e}")
-        # Return raw text as summary if JSON fails
         return {
-            "summary": response.text[:1000] if response.text else "Summary unavailable.",
-            "links": []
+            "summary": summary,
+            "links": links[:6]
         }
+
     except Exception as e:
-        print(f"  [ERROR] Failed for {topic['key']}: {e}")
+        print(f"  [ERROR] API call failed for {topic['key']}: {type(e).__name__}: {e}")
         return {
-            "summary": "Content unavailable today.",
+            "summary": f"API error: {type(e).__name__}: {str(e)[:200]}",
             "links": []
         }
 
@@ -288,7 +255,7 @@ def build_html(date: datetime.date, sections: dict, archive_links: str) -> str:
         key = topic["key"]
         data = sections.get(key, {"summary": "No content.", "links": []})
         depth = topic["depth"]
-        summary_html = data["summary"].replace("\n\n", "</p><p>")
+        summary_html = data["summary"].replace("\n\n", "</p><p>").replace("\n", "<br>")
         links_html = "".join(
             f'<a href="{l["url"]}" target="_blank" rel="noopener">'
             f'<span class="link-arrow">↗</span>{l["title"]}</a>'
@@ -395,22 +362,21 @@ def get_archive_links(current_date: datetime.date) -> str:
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     print(f"[INFO] Running digest for {TODAY}")
-    print(f"[INFO] Processing {len(TOPICS)} topics via Gemini Search Grounding...\n")
+    print(f"[INFO] Processing {len(TOPICS)} topics via Gemini Search Grounding\n")
 
     sections = {}
     for topic in TOPICS:
-        print(f"  → [{topic['key']}] searching + summarizing...")
+        print(f"  → [{topic['key']}] calling Gemini...")
         sections[topic["key"]] = fetch_and_summarize(topic)
-        print(f"     ✓ done — {len(sections[topic['key']].get('links', []))} links found")
+        print(f"     ✓ done\n")
 
-    print("\n[INFO] Building HTML...")
+    print("[INFO] Building HTML...")
     archive_links = get_archive_links(TODAY)
     html = build_html(TODAY, sections, archive_links)
 
     (DOCS_DIR / "index.html").write_text(html, encoding="utf-8")
     (ARCHIVE_DIR / f"{TODAY.isoformat()}.html").write_text(html, encoding="utf-8")
 
-    # Keep only last 15 archive files
     all_archive = sorted(ARCHIVE_DIR.glob("*.html"))
     for old in all_archive[:-15]:
         old.unlink()
