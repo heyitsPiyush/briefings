@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Briefing — 2026-10-25</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0d0f0e;--surface:#131614;--border:#1e2320;--border-bright:#2a302c;
+      --text:#c8d4c9;--text-dim:#5a6b5c;--text-bright:#e8f0e9;
+      --accent:#4ade80;--accent-dim:#166534;
+      --red:#f87171;--amber:#fbbf24;--blue:#60a5fa;
+      --mono:'IBM Plex Mono',monospace;--serif:'Libre Baskerville',serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:16px;line-height:1.75;min-height:100vh}
+    header{border-bottom:1px solid var(--border);padding:2rem 0 1.5rem;position:sticky;top:0;background:rgba(13,15,14,0.95);backdrop-filter:blur(8px);z-index:100}
+    .header-inner{max-width:860px;margin:0 auto;padding:0 2rem;display:flex;align-items:baseline;gap:1.5rem}
+    .header-label{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent)}
+    .header-date{font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);margin-left:auto}
+    nav{background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+    nav::-webkit-scrollbar{display:none}
+    .nav-inner{max-width:860px;margin:0 auto;padding:0 2rem;display:flex}
+    nav a{font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);text-decoration:none;padding:0.75rem 1rem;white-space:nowrap;border-bottom:2px solid transparent;transition:color 0.15s,border-color 0.15s}
+    nav a:hover{color:var(--text-bright);border-color:var(--accent)}
+    main{max-width:860px;margin:0 auto;padding:3rem 2rem 6rem}
+    .section{border:1px solid var(--border);border-radius:4px;margin-bottom:2rem;overflow:hidden;transition:border-color 0.2s}
+    .section:hover{border-color:var(--border-bright)}
+    .section-header{display:flex;align-items:center;gap:0.75rem;padding:1rem 1.5rem;background:var(--surface);border-bottom:1px solid var(--border)}
+    .section-icon{font-size:1.1rem}
+    .section-header h2{font-family:var(--mono);font-size:0.85rem;font-weight:500;letter-spacing:0.05em;color:var(--text-bright)}
+    .depth-badge{margin-left:auto;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.5rem;border-radius:2px}
+    .depth-deep .depth-badge{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.2)}
+    .depth-moderate .depth-badge{background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+    .depth-broad .depth-badge{background:rgba(96,165,250,0.1);color:var(--blue);border:1px solid rgba(96,165,250,0.2)}
+    .section-body{padding:1.5rem;font-size:0.95rem;color:var(--text)}
+    .section-body p{margin:0}
+    .section-body p+p{margin-top:1rem}
+    .section-body strong{color:var(--text-bright)}
+    .section-body em{color:var(--text-dim);font-style:italic}
+    .section-body code{font-family:var(--mono);font-size:0.8rem;background:var(--surface);padding:0.1rem 0.3rem;border-radius:2px;color:var(--accent)}
+    .section-links{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.4rem}
+    .section-links a{font-family:var(--mono);font-size:0.72rem;color:var(--text-dim);text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .section-links a:hover{color:var(--accent)}
+    .link-arrow{color:var(--accent);flex-shrink:0}
+    .archive-bar{font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);margin-bottom:2.5rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
+    .archive-bar span{color:var(--border-bright)}
+    .archive-bar a{color:var(--text-dim);text-decoration:none;padding:0.2rem 0.4rem;border:1px solid var(--border);border-radius:2px;transition:color 0.15s,border-color 0.15s}
+    .archive-bar a:hover{color:var(--accent);border-color:var(--accent-dim)}
+    footer{border-top:1px solid var(--border);padding:1.5rem 2rem;max-width:860px;margin:0 auto;font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);display:flex;justify-content:space-between}
+    @media(max-width:600px){.header-inner,.nav-inner,main,footer{padding-left:1rem;padding-right:1rem}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <span class="header-label">Daily Briefing</span>
+      <span class="header-date">October 25, 2026</span>
+    </div>
+  </header>
+  <nav><div class="nav-inner"><a href="#bug_bounty">Bug Bounty</a><a href="#hardware_hacking">Hardware Hacking</a><a href="#exploit_dev">Exploit Development</a><a href="#cve_threats">CVE & Threat Analysis</a><a href="#ai_cyber">AI × Cybersecurity</a><a href="#ai_tech">AI & Tech</a><a href="#finance">Business & Finance</a><a href="#geopolitics">Geopolitics & Policy</a><a href="#science">Science & Research</a></div></nav>
+  <main>
+    <div class="archive-bar">ARCHIVE <span>·</span> <a href="archive/2026-10-24.html">Oct 24</a> <a href="archive/2026-10-23.html">Oct 23</a> <a href="archive/2026-10-22.html">Oct 22</a> <a href="archive/2026-10-21.html">Oct 21</a> <a href="archive/2026-10-20.html">Oct 20</a> <a href="archive/2026-10-19.html">Oct 19</a> <a href="archive/2026-10-18.html">Oct 18</a> <a href="archive/2026-10-17.html">Oct 17</a> <a href="archive/2026-10-16.html">Oct 16</a> <a href="archive/2026-10-15.html">Oct 15</a> <a href="archive/2026-10-14.html">Oct 14</a> <a href="archive/2026-10-13.html">Oct 13</a> <a href="archive/2026-10-12.html">Oct 12</a> <a href="archive/2026-10-11.html">Oct 11</a> <a href="archive/2026-10-10.html">Oct 10</a></div>
+    
+        <section class="section depth-deep" id="bug_bounty">
+          <div class="section-header">
+            <span class="section-icon">🐛</span>
+            <h2>Bug Bounty</h2>
+            <span class="depth-badge">deep</span>
+          </div>
+          <div class="section-body"><p>October 2026 has been a significant month for bug bounty news, with several critical vulnerability disclosures and platform updates. Notably, the "Black October" events include the disclosure of PHP2Shell vulnerabilities, CVE-2026-109618 and CVE-2026-109619, which are critical remote code execution flaws affecting PHP 7.x and 8.x series, rated 9.2 on the CVSS scoring system. These vulnerabilities, discovered by researchers from Calif, OpenAI, and Google-owned Wiz, were actively exploited even before public disclosure, prompting emergency security updates on October 21. Another major incident involved a supply chain attack on LiteLLM, where malicious packages were distributed via PyPI and Docker registries, leading to potential credential theft and remote code execution. Additionally, the eMudhra certificate authority compromise, reported on October 17, revealed cryptographically weak private keys for intermediate CA certificates, triggering emergency responses from Google Chrome and Mozilla Firefox to block affected public keys.</p><p>Bug bounty platforms have also seen significant activity and changes. HackerOne reported a record US$89.1 million paid to researchers between July 2025 and June 2026, based on 92,194 valid vulnerability reports, marking the highest annual total in the platform's history. Meanwhile, Bugcrowd experienced a 388% median increase in submission volume in its triage queue in October 2026, largely due to unverified AI-powered submissions, leading them to throttle accounts with low accuracy. Intigriti has paid over €60 million in bounties and is noted for its strong European presence and focus on GDPR standards. The use of AI in vulnerability research is a growing trend, with 82% of hackers in Bugcrowd's 2026 survey utilizing it, and valid AI vulnerability reports on HackerOne increasing by 222% over two years. New techniques include hunting for blind XSS with match and replace rules and fuzzing for virtual hosts with FFUF.</p></div>
+          <div class="section-links"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEg_ez1LhlZrnNq9mfkxRCegHEj4TWbElGcbpfHnXRnrOrqNwcbi25yCPZMDLsJxYO01HSs1Gx5vYWiwGbnJGYCs6siHXrAteTqFqP-Uu8QkmKMXURNAQMQCM-bYxA3StUyJqKlQ72BBwarB45arsRtIxe6CMYF41iROcWT1nfpaKqPY1Q16m00wO4TsiG3HiQs10Qdx3z0Lw4MuOKNmqpXjg_0" target="_blank" rel="noopener"><span class="link-arrow">↗</span>reddit.com</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfbfQKt6L_kL5ee4Mb03vIYXUcUmIAisHoWERRqOxCEwARX0QKexSGm2Bs5EPFYjDishNTtdcBruFYa_HwmKgLJSkVbIS5RIwB1m5qg2tbCY5zS9chmoQ-BK059wcpnpe2BcLexwC17j9yH2GlfaRroM3OVxmR8ojZ3gC9uYIipVZAO6tMKg==" target="_blank" rel="noopener"><span class="link-arrow">↗</span>thehackernews.com</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOzLpN_rYOUc07O1PfzPFZvo_yvJvusjKPmODrtzPdgnPbsy1PbmbTs-W8vJWtfJ5K4lCfFxd-VuQeRY5HStAg7JAjcF3lNlV25AxOE4VOaPOMWR9DckSqS7KNCPddgTgDgLQm1Qvt99N0g82V56b7q5Whr1shO00VbmwZYQ==" target="_blank" rel="noopener"><span class="link-arrow">↗</span>wikipedia.org</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7U4MFc9DrMHY1sy-iMlHa6IB3yOpKbGHjRv68olXU-o2mVRAJTeUqf9aVJcEvd8psrltkzrN9Il5YogWMPvnUzzFC9tVvLVe52LFG8bmoprfeFqsj6KKhl5iew9de8eZZCcpYxoM5rT53Rq1cEZD-BtEz85u_Hd8VnydstiBLkkOqWPClUw==" target="_blank" rel="noopener"><span class="link-arrow">↗</span>huntress.com</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERuGgmo-2cUT_KT597AUA4le5eRrNoMpEY_YqLzNd9c5paL6yuDCsrEPnoQdRuGMc9S6GYsVq7LHr5zbsGcj7bHt7ipKOczuNeSqNFAyJFnJUjw7ScZrd7Em1pCTRL5r6SVDQMY9DsoIdpnO8aRrIROBg3A229Ha5hBay9BtH7J54Dgslg7f34lj2WqAQoAH66PtZHpGjzxSiE5uGxmPLLX5y7MbVLwIWlTqOSLmMEkA==" target="_blank" rel="noopener"><span class="link-arrow">↗</span>upistudy.com</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9Gz0bvS6WRomT_y-pc0oV4K8_OeIreetZCx-JXyg8_AOd_a02YppAxzJk30gRt1bn3wCVmD-cWqDH_BHCyXWPtZfo2StOcw0uZ9B7Cnj1ZQaOXgk3CB-gWW48i_EOizU82fiLDY_JOC_QqVLtTdV1uII=" target="_blank" rel="noopener"><span class="link-arrow">↗</span>stingrai.io</a></div>
+        </section>
+        <section class="section depth-deep" id="hardware_hacking">
+          <div class="section-header">
+            <span class="section-icon">⚙️</span>
+            <h2>Hardware Hacking</h2>
+            <span class="depth-badge">deep</span>
+          </div>
+          <div class="section-body"><p>Hardware hacking and embedded security news in October 2026 highlights critical firmware vulnerabilities and the pervasive impact of IoT security flaws. Asus recently issued urgent firmware updates for its routers, addressing three high-severity vulnerabilities (CVE-2026-75775, CVE-2026-75779, CVE-2026-93489) that could allow attackers to gain administrative access without a password, with CVSS scores reaching 8.7. Similarly, a critical certificate validation flaw in SWUpdate, CVE-2026-109399, permits the installation of malicious firmware via crafted CMS signatures by allowing attackers to embed untrusted intermediates. Researchers have also observed continued malicious activity targeting industrial control systems (ICS) and operational technology (OT) environments, with botnets frequently exploiting weak or default credentials in IoT devices to launch attacks. The 2026 "firmware backdoor" discussion emphasizes how firmware attack toolkits are now readily available on criminal marketplaces, enabling remote exploitation and backdoor installation on devices like routers, Android phones from budget manufacturers, and older laptops through UEFI firmware attacks.</p><p>RF hacking and supply chain security remain significant concerns, with new tools and attack vectors emerging. Great Scott Gadgets unveiled the HackRF Pro, an upgraded Software Defined Radio (SDR) platform extending from 100 kHz to 6 GHz, enhancing capabilities for wireless development and signal analysis. This comes as signal-based threats, including RF spoofing against autonomous systems, GNSS manipulation, and Bluetooth Low Energy (BLE) relay attacks, are increasingly targeting the physical layer. The supply chain is also a critical target, with reports indicating that compromised vendors and trusted update channels are frequently exploited to introduce malicious code or gain access to systems. NIST’s Internal Report 8615, published in September 2026, emphasizes the need for unified standards and traceability throughout the semiconductor lifecycle to strengthen hardware security against evolving threats, including those posed by chiplets and AI hardware.</p></div>
+          <div class="section-links"><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWkqdsNRUQWtyk_V9Uh0a3YgZGYArLYRtdHCuRG91JZg5yJhevzv11yIV7BpeKm38Na93EJJwULj3ziy9ZFBWdYq-36lZlQi52E-S3PvnF8llPD6C3HKOag_zFQLQF-DrpKd_fu1CpHqa-QhQdi1bMiLY0ZElsmwBg6Wc4NeXGa_ItsXRM0BZdoYJB806IiTwqYLz_2a0M8p1dOXHGlWQzJ3RdzOpTFm5NpJMblOU=" target="_blank" rel="noopener"><span class="link-arrow">↗</span>notebookcheck.net</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFma3eVb6fbDwIUBeGkCDl5JU8dK1S-at11Vu5HjsGkld88jHjfeSHcnyz7A1o_Eb-nIpDrkXhb-Xb0mNjUk6dkpMRRbjTSVwt23Otb80BhTKbcGFEUwOlEwnwIU3kui6eNK3oNJuarDhj4LYqYcZag" target="_blank" rel="noopener"><span class="link-arrow">↗</span>honeypottimes.com</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqaRM8SZluWTb6e-1HPb7sPvrfcSNuRl7f9htdlPvQqEbvIFoEP6rwuYNbatP7ZmDywUfAAEFEEIk4wsbmQ7YmKnjQdLPEBw-_xRK_ovAC6Y6MRa7Ct3k9Q-khBrWkfR2BbSePRvpM-oxGlyvwIprb-gFarSDWdvVnL6pS-3kIYXUSBekWkVhpKbP2rg==" target="_blank" rel="noopener"><span class="link-arrow">↗</span>nozominetworks.com</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeAfodiNDfg6oxFAx9S7hims2l8-dtGMiUnCJo7LaIlsxpDWkwnAdvmh-O3vHOMCghu-5RGJhPSn2KPHPNN_IzNKmj1siYK2ILOKhJ3wJsP5ceaCiqN4g89UrAUb22Z5h6VExdz4k=" target="_blank" rel="noopener"><span class="link-arrow">↗</span>youtube.com</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2715lHf04D4_7phywBL2rFUqhRFED6tfoTP6GU4vnsAr95tD5NvSMaDst-8EZ-9HE3RBA6rDOkX1Bi7-n31uhJ4COEesUO1QVzPKdpvddyHciK7FuTbW0jy2sXw==" target="_blank" rel="noopener"><span class="link-arrow">↗</span>dataweek.co.za</a><a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCCIFQR8L182G--_WS5_hD98fezwuFnT--E5DKxl66m5Qs111Uv0zmbHwmijMun9aGtU92q2enNu0QpcL5uyZ3Io-Ocb1vS3_wfMheOd_ZMO3wa4vMXqiefsxaksj3MWFg3IRPx0b-YQ5giQ9NBNdYDdHUfBiVSQAJzZClKv1AHWmMxIl8jWpHBk48M9UTuZQu" target="_blank" rel="noopener"><span class="link-arrow">↗</span>offgrid.co</a></div>
+        </section>
+        <section class="section depth-deep" id="exploit_dev">
+          <div class="section-header">
+            <span class="section-icon">💥</span>
+            <h2>Exploit Development</h2>
+            <span class="depth-badge">deep</span>
+          </div>
+          <div class="section-body"><p>October 2026 saw significant activity in exploit development, highlighted by critical memory corruption vulnerabilities and kernel exploits</p></div>
+          
+        </section>
+        <section class="section depth-moderate" id="cve_threats">
+          <div class="section-header">
+            <span class="section-icon">🔍</span>
+            <h2>CVE & Threat Analysis</h2>
+            <span class="depth-badge">moderate</span>
+          </div>
+          <div class="section-body"><p>As of October 25, 2026, the cybersecurity landscape is marked by several critical, actively</p></div>
+          
+        </section>
+        <section class="section depth-deep" id="ai_cyber">
+          <div class="section-header">
+            <span class="section-icon">🤖</span>
+            <h2>AI × Cybersecurity</h2>
+            <span class="depth-badge">deep</span>
+          </div>
+          <div class="section-body"><p>Recent reports highlight a "Black October" in cybersecurity, where AI-enabled hacking exposed critical flaws, notably</p></div>
+          
+        </section>
+        <section class="section depth-moderate" id="ai_tech">
+          <div class="section-header">
+            <span class="section-icon">💡</span>
+            <h2>AI & Tech</h2>
+            <span class="depth-badge">moderate</span>
+          </div>
+          <div class="section-body"><p>October 2026 saw significant advancements in AI models and infrastructure, with Google making Gemini 4 Argon generally</p></div>
+          
+        </section>
+        <section class="section depth-broad" id="finance">
+          <div class="section-header">
+            <span class="section-icon">💰</span>
+            <h2>Business & Finance</h2>
+            <span class="depth-badge">broad</span>
+          </div>
+          <div class="section-body"><p>Unavailable today (ClientError).</p></div>
+          
+        </section>
+        <section class="section depth-broad" id="geopolitics">
+          <div class="section-header">
+            <span class="section-icon">🌍</span>
+            <h2>Geopolitics & Policy</h2>
+            <span class="depth-badge">broad</span>
+          </div>
+          <div class="section-body"><p>Unavailable today (ClientError).</p></div>
+          
+        </section>
+        <section class="section depth-broad" id="science">
+          <div class="section-header">
+            <span class="section-icon">🔬</span>
+            <h2>Science & Research</h2>
+            <span class="depth-badge">broad</span>
+          </div>
+          <div class="section-body"><p>Unavailable today (ClientError).</p></div>
+          
+        </section>
+  </main>
+  <footer>
+    <span>generated 2026-10-25</span>
+    <span>gemini-2.5-flash · google search grounding</span>
+  </footer>
+</body>
+</html>
